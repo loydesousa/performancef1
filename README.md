@@ -4,4 +4,4 @@
 
 -- The objective here is to find the drivers and teams who won most of races from the first half of 2025 F1 season, starting in Australia finishing at Hungary (before the Summer Break).
 
--- Here we load, clean and analyse data from a CSV file (a basic pipeline) and build some graphics to make our analysis more visual. 
+-- Here we load, clean and analyse data from a CSV file (a basic analysis) and build some graphics to make our analysis more visual. 

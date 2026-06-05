@@ -1,0 +1,23 @@
+import pandas as pd
+import matplotlib as plot
+import seaborn as sns
+
+# Calculate cumulative wins for each driver across tracks for the line chart
+cumulative_driver_wins = pd.DataFrame(index=track_order)
+
+for driver in wins_df['Driver'].unique():
+    driver_track_wins = wins_df[wins_df['Driver'] == driver].groupby('Track').size().reindex(track_order, fill_value=0)
+    cumulative_driver_wins[driver] = driver_track_wins.cumsum()
+
+# Plotting cumulative driver wins as a line chart
+plt.figure(figsize=(12, 7))
+for column in cumulative_driver_wins.columns:
+    plt.plot(cumulative_driver_wins.index, cumulative_driver_wins[column], marker='o', label=column)
+plt.title('Fase 1 da Fórmula 1: Vitórias por Piloto')
+plt.xlabel('Track')
+plt.ylabel('Contagem de Vitórias')
+plt.legend(title='Driver', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.grid(True)
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()

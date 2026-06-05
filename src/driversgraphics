@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib as plot
 import seaborn as sns
 
+race_csv = pd.read_csv("Formula1_2025Season_RaceResults.csv")
+
 # Calculate cumulative wins for each driver across tracks for the line chart
 cumulative_driver_wins = pd.DataFrame(index=track_order)
 

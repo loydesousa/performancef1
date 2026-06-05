@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-race_data = pd.read("Formula1_2025Season_RaceResults.csv")
+race_data = pd.read_csv("Formula1_2025Season_RaceResults.csv")
 
 # Gráfico de Vitórias por Time
 df['Position'] = pd.to_numeric(df['Position'], errors='coerce')

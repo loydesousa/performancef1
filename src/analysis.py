@@ -2,6 +2,7 @@ import pandas as pd
 
 # Here we're not considering Sprint Races, only the Regular ones.
 # First half of 2025 season
+data_csv = pd.read_csv("Formula1_2025Season_RaceResults.csv")
 
 def get_data_csvdrivers(filepath: str):
     df = pd.read_csv(filepath)
@@ -25,3 +26,6 @@ def get_data_csvteams(filepath: str):
     # And we sum the values to get the total wins for each team.
     team_wins = df.groupby("Team")["Position"].apply(lambda x: (x == 1).sum())
     return team_wins
+
+print(get_data_csvdrivers(data_csv))
+print(get_data_csvteams(data_csv))

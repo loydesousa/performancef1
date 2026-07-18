@@ -6,38 +6,27 @@ from config import RACE_RESULTS
 # First half of 2025 season
 data_csv = pd.read_csv(RACE_RESULTS)
 
-def get_data_drivers(filepath: str):
-    positions = pd.to_numeric(filepath['Position'], errors='coerce').sort_values(ascending=False)
-    drivers = filepath['Driver'].astype(str)
+def get_f1graphics(filepath: str):
+    filepath['Position'] = pd.to_numeric(filepath['Position'], errors='coerce')
+    drivers_wins = filepath[filepath['Position'] == 1].groupby('Driver').size()
+    teams_wins = filepath[filepath['Position'] == 1].groupby('Team').size()
+
     # Let's see how many wins each driver has:
-    # We can group the data by 'Driver' and count how many times each driver has a 'Position' of 1 (which indicates a win).
+    # We can group the data by 'Driver', 'Teama' and count how many times each driver and teams have a 'Position' of 1 (which indicates a win).
     # We use the matplotlib library to show the results in a graph.
-    fig = ptl.figure(figsize=(12, 10))
-
-    ptl.plot(drivers, positions, label='Wins by Driver', color='orange', linestyle='--', marker='o')
-    ptl.title('Wins by Driver')
-    ptl.xlabel('Drivers')   
-    ptl.ylabel('Number of Wins')
-    ptl.legend()
-    ptl.xticks(rotation=45)
-    ptl.show()
-
-def get_data_teams(filepath: str):
-    positions = pd.to_numeric(filepath['Position'], errors='coerce').sort_values(ascending=False)
-    teams = filepath['Team'].astype(str)
-    # Let's see how many wins each team has:
-    # We can group the data by 'Team' and count how many times each team has a 'Position' of 1 (which indicates a win).
-    # We use the matplotlib library to show the results in a graph.
-    fig = ptl.figure(figsize=(12, 10))
-
-    ptl.plot(teams, positions, label='Wins by Team', color='blue', linestyle='--', marker='o')
-    ptl.title('Wins by Team')
-    ptl.xlabel('Teams')   
-    ptl.ylabel('Number of Wins')
-    ptl.legend()
-    ptl.xticks(rotation=45)
-    ptl.show()
+    ptl.style.use('dark_background')
+    fig, (up_ax, down_ax) = ptl.subplots(figsize=(12, 8), nrows=2)
     
+    up_ax.plot(drivers_wins.index, drivers_wins.values, label='Wins by Driver', color='blue', linestyle='--', marker='o')
+    up_ax.legend()
 
-# get_data_drivers(data_csv)
-get_data_teams(data_csv)
+    down_ax.bar(teams_wins.index, teams_wins.values, label='Wins by Team', color='orange')
+    down_ax.legend()
+    down_ax.set_xlabel('Teams')
+    down_ax.set_ylabel('Wins')
+    
+    fig.suptitle('Wins: First Half of 2025 Season', fontsize=14)
+    fig.legend()
+    ptl.show()
+
+get_f1graphics(data_csv)
